@@ -1,0 +1,27 @@
+{
+  "success": true,
+  "msg": "success",
+  "errorCode": 1,
+  "data": [{
+    "zutuanId": 1,
+    "name": "数据结构一起学",
+    "cover": "https://cdn-r-test.oss-cn-hangzhou.aliyuncs.com/pro/image/M/36debc05898c4e6d96d16e0a4f01c3e6.png",
+    "tuanBeginDate": "2020-11-04T00:59:37.047+0000",
+    "role": "java",
+    "period" : 5
+  }, {
+    "zutuanId": 2,
+    "name": "专业课考点讲解(一线)",
+    "cover": "https://cdn-r-test.oss-cn-hangzhou.aliyuncs.com/pro/image/M/9f029a80349c4c148319cd16a67af0cc.png",
+    "tuanBeginDate": "2020-11-04T00:59:37.047+0000",
+    "role": "java",
+    "period" : 10
+  }, {
+    "zutuanId": 3,
+    "name": "专业课考点讲解",
+    "cover": "https://cdn-r-test.oss-cn-hangzhou.aliyuncs.com/pro/image/M/28eb3c9c628f4ae19062451c7a8a9b24.png",
+    "tuanBeginDate": "2020-11-04T00:59:37.047+0000",
+    "role": "java",
+    "period" : "未开始"
+  }]
+}
