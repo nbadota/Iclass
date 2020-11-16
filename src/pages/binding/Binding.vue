@@ -81,15 +81,14 @@ methods: {
   //获取验证文字
   getCaptcha () {
     //节流
-    let that = this
-    let now = +new Date();
-    if(that.lastTime && that.lastTime - now < 1000){
-      clearTimeout(that.timer)
+    if(this.timer){
+      return
     }
-    that.timer = setTimeout(function () {
+    this.timer = setTimeout( () => {
       // 每次指定的src要不一样
       this.$refs.captcha.src = 'http://localhost:8080/captcha?time='+Date.now()
-      that.lastTime = +new Date()
+      //console.log("click")
+      this.timer = null
     },1000)
   },
   //获取手机验证码
@@ -150,7 +149,7 @@ methods: {
       }).then(res => {
         let data = res.data
         if(data.code === 0){
-          localStorage.setItem('phoneBinding','true')
+          this.$store.commit('$_setToken',data.token);
           this.$router.push({ path: '/home/tasks'})
         }else {
           this.showAlert(data.msg)

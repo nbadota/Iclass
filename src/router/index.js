@@ -8,7 +8,9 @@ import HomeStatistics from "../pages/home/components/Statistics"
 import Binding from "../pages/binding/Binding"
 import changePhone from "../pages/changePhone/changePhone"
 import Contact from "../pages/contact/Contact"
+import Login from "../pages/login/Login";
 import {tokenExpressInTime} from "../assets/util/utils"
+//import axios from 'axios'
 
 Vue.use(Router)
 
@@ -20,9 +22,9 @@ const router = new Router({
       redirect: '/home/tasks'
     },
     {
-      path: '/authorization',
-      name: 'Authorization',
-      component: Authorization
+      path: '/login',
+      name: 'Login',
+      component: Login
     },
     {
       path: '/home/:id?',
@@ -64,32 +66,28 @@ const router = new Router({
 
 //配置全局路由守卫
 router.beforeEach((to, from, next) => {
-    //如果token过期，则将token设置为空
-    if (tokenExpressInTime() && localStorage.getItem('token')){
-      localStorage.setItem('token',"")
-    }
-    //当token为null时说明用户第一次使用，将其赋值为""
-    let token = localStorage.getItem('token') === null ? "" : localStorage.getItem('token')
-    //当用户手机绑定成功后记录
-    let bind = localStorage.getItem('phoneBinding')
-    //说明用户未进行微信授权或token已过期
-    if(!token){
-      if(to.path === '/authorization'){
+    let token1 = localStorage.getItem('token')
+    let token2 = to.params.token
+    //说明为新用户,需要绑定手机
+    if(!token1 && !token2){
+      if(to.path === '/binding' || to.path === '/changePhone' || to.path === '/contact'){
+        next()
+      }else {
         next({
-          query:{code:token}
+          path: '/binding',
+        })
+      }
+    //说明为老用户
+    }else if(!token1 && token2){
+      if(to.path === '/login'){
+        next({
+          query:{token2}
         })
       }else {
         next({
-          path: '/authorization',
-          query:{code:token}
+          path: '/binding',
+          query:{token2}
         })
-      }
-    //说明用户微信授权成功且token未过期，但并未绑定手机，重定向至手机绑定页面
-    }else if(token && bind === 'false'){
-      if(to.name === 'Binding' || to.name === 'changePhone' || to.name === 'Contact'){
-        next()
-      }else{
-        next({ name: 'Binding' })
       }
     }else {
       next()
